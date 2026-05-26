@@ -6,6 +6,8 @@ const API = axios.create({
 
   baseURL:
     "https://doubthub-ai-backend.onrender.com/api",
+
+  withCredentials: false,
 });
 
 
@@ -16,7 +18,7 @@ API.interceptors.request.use(
 
     try {
 
-      // Get User
+      // ================= GET USER =================
       const userData = JSON.parse(
         localStorage.getItem("user")
       );
@@ -26,17 +28,24 @@ API.interceptors.request.use(
         userData
       );
 
+      // ================= TOKEN FIX =================
+      const token =
+        userData?.user?.token;
+
       // ================= SEND TOKEN =================
-      if (userData?.token) {
+      if (token) {
 
         config.headers.Authorization =
-          `Bearer ${userData.token}`;
+          `Bearer ${token}`;
 
         console.log(
           "TOKEN SENT:",
-          userData.token
+          token
         );
       }
+
+      config.headers["Content-Type"] =
+        "application/json";
 
       return config;
 
