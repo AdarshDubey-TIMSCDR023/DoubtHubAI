@@ -28,7 +28,7 @@ API.interceptors.request.use(
         userData
       );
 
-      // ================= TOKEN FIX =================
+      // ================= TOKEN =================
       const token =
         userData?.user?.token;
 
@@ -44,6 +44,7 @@ API.interceptors.request.use(
         );
       }
 
+      // ================= CONTENT TYPE =================
       config.headers["Content-Type"] =
         "application/json";
 
