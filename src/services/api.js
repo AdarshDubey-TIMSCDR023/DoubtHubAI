@@ -4,10 +4,8 @@ import axios from "axios";
 // ================= API INSTANCE =================
 const API = axios.create({
 
-  // IMPORTANT
-  // NO /api HERE
   baseURL:
-    "https://doubthub-ai-backend.onrender.com",
+    "https://doubthub-ai-backend.onrender.com/api",
 
   withCredentials: false,
 
@@ -56,11 +54,6 @@ API.interceptors.request.use(
         );
       }
 
-
-      // ================= CONTENT TYPE =================
-      config.headers["Content-Type"] =
-        "application/json";
-
       return config;
 
     } catch (error) {
@@ -91,74 +84,11 @@ API.interceptors.response.use(
 
   (error) => {
 
-    // ================= RESPONSE ERROR =================
-    if (error.response) {
-
-      console.log(
-        "API ERROR STATUS:",
-        error.response.status
-      );
-
-      console.log(
-        "API ERROR DATA:",
-        error.response.data
-      );
-
-
-      // ================= UNAUTHORIZED =================
-      if (
-        error.response.status === 401
-      ) {
-
-        console.log(
-          "Unauthorized"
-        );
-
-        localStorage.removeItem(
-          "user"
-        );
-
-        localStorage.removeItem(
-          "token"
-        );
-      }
-
-
-      // ================= NOT FOUND =================
-      if (
-        error.response.status === 404
-      ) {
-
-        console.log(
-          "Route not found"
-        );
-      }
-
-
-      // ================= SERVER ERROR =================
-      if (
-        error.response.status === 500
-      ) {
-
-        console.log(
-          "Server Error"
-        );
-      }
-
-    } else if (error.request) {
-
-      // ================= NO RESPONSE =================
-      console.log(
-        "No response from server"
-      );
-
-    } else {
-
-      console.log(
-        "ERROR:",
-        error.message
-      );
-    }
+    console.log(
+      "API ERROR:",
+      error.response?.data ||
+      error.message
+    );
 
     return Promise.reject(error);
   }
